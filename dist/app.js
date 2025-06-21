@@ -16,6 +16,6 @@ app.use("/api", book_route_1.default);
 app.use("/api", borrow_route_1.default);
 app.use(globalerrorHandler_1.globalErrorHandler);
 app.get("/", (req, res) => {
-    res.send("Library Management App is running");
+    res.send("Library Management App is running automate with github");
 });
 exports.default = app;

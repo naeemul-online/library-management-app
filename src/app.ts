@@ -16,7 +16,7 @@ app.use("/api", borrowRoutes);
 app.use(globalErrorHandler);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Library Management App is running");
+  res.send("Library Management App is running automate with github");
 });
 
 export default app;
