@@ -24,7 +24,7 @@ export const borrowBook = async (
       message: "Book borrowed successfully",
       data: borrowRecord,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     next(error);
   }
 };
@@ -70,7 +70,7 @@ export const getBorrowSummary = async (
       message: "Borrowed books summary retrieved successfully",
       data: summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     next(error);
   }
 };

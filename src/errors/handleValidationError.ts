@@ -3,7 +3,7 @@ import { Error } from "mongoose";
 export const handleValidationError = (err: Error.ValidationError) => {
   const errors: Record<string, string> = {};
 
-  Object.values(err.errors).forEach((el: any) => {
+  Object.values(err.errors).forEach((el) => {
     errors[el.path] = el.message;
   });
 

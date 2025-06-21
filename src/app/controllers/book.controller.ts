@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Book } from "../models/book.model";
+import { IBook } from "../interfaces/book.interface";
 
 // Create a Book
 export const createBook = async (
@@ -33,8 +34,8 @@ export const getAllBooks = async (
       limit = "10",
     } = req.query;
 
-    const query: any = {};
-    if (filter) query.genre = filter;
+    const query: Partial<Pick<IBook, "genre">> = {};
+    if (filter) query.genre = filter as IBook["genre"];
 
     const books = await Book.find(query)
       .sort({ [sortBy as string]: sort === "asc" ? 1 : -1 })

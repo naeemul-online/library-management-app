@@ -1,11 +1,11 @@
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
+import dotenv from "dotenv";
+dotenv.config();
 
-const port = 5001;
-const uri =
-  "mongodb+srv://mongoose:mongoose@cluster0.ml8mugs.mongodb.net/libraryManagementDB?retryWrites=true&w=majority&appName=Cluster0";
-
+const port = process.env.PORT || 5000;
+const uri = process.env.MONGODB_URI as string;
 
 let server: Server;
 

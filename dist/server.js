@@ -14,8 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
-const port = 5001;
-const uri = "mongodb+srv://mongoose:mongoose@cluster0.ml8mugs.mongodb.net/libraryManagementDB?retryWrites=true&w=majority&appName=Cluster0";
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const port = process.env.PORT || 5000;
+const uri = process.env.MONGODB_URI;
 let server;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {

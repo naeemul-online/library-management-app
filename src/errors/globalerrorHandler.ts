@@ -3,10 +3,15 @@ import { ApiError } from "./ApiError";
 import { Error as MongooseError } from "mongoose";
 import { handleValidationError } from "./handleValidationError";
 
-export const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const globalErrorHandler: ErrorRequestHandler = (
+  err,
+  req,
+  res,
+  next
+) => {
   let statusCode = 500;
   let message = "Something went wrong!";
-  let error: any = {};
+  let error = {};
 
   if (err instanceof ApiError) {
     statusCode = err.statusCode;
