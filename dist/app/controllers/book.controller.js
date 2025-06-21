@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBook = exports.updateBook = exports.getBookById = exports.getAllBooks = exports.createBook = void 0;
 const book_model_1 = require("../models/book.model");
 // Create a Book
-const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const book = yield book_model_1.Book.create(req.body);
         res.status(201).json({
@@ -22,16 +22,12 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: "Failed to create book",
-            error,
-        });
+        next(error);
     }
 });
 exports.createBook = createBook;
 // Get All Books
-const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllBooks = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { filter, sortBy = "createdAt", sort = "desc", limit = "10", } = req.query;
         const query = {};
@@ -47,16 +43,12 @@ const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch books",
-            error,
-        });
+        next(error);
     }
 });
 exports.getAllBooks = getAllBooks;
 // Get Book by ID
-const getBookById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getBookById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;
         const book = yield book_model_1.Book.findById(bookId);
@@ -74,16 +66,12 @@ const getBookById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: "Invalid book ID",
-            error,
-        });
+        next(error);
     }
 });
 exports.getBookById = getBookById;
 // Update Book
-const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;
         const updatedBook = yield book_model_1.Book.findByIdAndUpdate(bookId, req.body, {
@@ -104,16 +92,12 @@ const updateBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: "Update failed",
-            error,
-        });
+        next(error);
     }
 });
 exports.updateBook = updateBook;
 // Delete Book
-const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { bookId } = req.params;
         const deleted = yield book_model_1.Book.findByIdAndDelete(bookId);
@@ -131,11 +115,7 @@ const deleteBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: "Delete failed",
-            error,
-        });
+        next(error);
     }
 });
 exports.deleteBook = deleteBook;

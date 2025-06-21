@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Book } from "../models/book.model";
 
 // Create a Book
-export const createBook = async (req: Request, res: Response) => {
+export const createBook = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const book = await Book.create(req.body);
     res.status(201).json({
@@ -11,16 +15,16 @@ export const createBook = async (req: Request, res: Response) => {
       data: book,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Failed to create book",
-      error,
-    });
+    next(error);
   }
 };
 
 // Get All Books
-export const getAllBooks = async (req: Request, res: Response) => {
+export const getAllBooks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const {
       filter,
@@ -42,18 +46,15 @@ export const getAllBooks = async (req: Request, res: Response) => {
       data: books,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch books",
-      error,
-    });
+    next(error);
   }
 };
 
 // Get Book by ID
 export const getBookById = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const { bookId } = req.params;
@@ -73,18 +74,15 @@ export const getBookById = async (
       data: book,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Invalid book ID",
-      error,
-    });
+    next(error);
   }
 };
 
 // Update Book
 export const updateBook = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const { bookId } = req.params;
@@ -107,18 +105,15 @@ export const updateBook = async (
       data: updatedBook,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Update failed",
-      error,
-    });
+    next(error);
   }
 };
 
 // Delete Book
 export const deleteBook = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const { bookId } = req.params;
@@ -138,10 +133,6 @@ export const deleteBook = async (
       data: null,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: "Delete failed",
-      error,
-    });
+    next(error);
   }
 };
