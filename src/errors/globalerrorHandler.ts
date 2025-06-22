@@ -1,33 +1,35 @@
-import { ErrorRequestHandler } from "express";
-import { ApiError } from "./ApiError";
-import { Error as MongooseError } from "mongoose";
+import { Request, Response, NextFunction } from "express";
+import mongoose from "mongoose";
 import { handleValidationError } from "./handleValidationError";
 
-export const globalErrorHandler: ErrorRequestHandler = (
-  err,
-  req,
-  res,
-  next
+export const globalErrorHandler = (
+  err: unknown,
+  req: Request,
+  res: Response,
+  _next: NextFunction
 ) => {
-  let statusCode = 500;
-  let message = "Something went wrong!";
-  let error = {};
-
-  if (err instanceof ApiError) {
-    statusCode = err.statusCode;
-    message = err.message;
-  } else if (err instanceof MongooseError.ValidationError) {
-    statusCode = 400;
-    const simplified = handleValidationError(err);
-    message = simplified.message;
-    error = simplified.errorDetails;
-  } else if (err instanceof Error) {
-    message = err.message;
+  // ✅ Mongoose validation error
+  if (err instanceof mongoose.Error.ValidationError) {
+    const errorResponse = handleValidationError(err);
+    return res.status(400).json(errorResponse);
   }
 
-  res.status(statusCode).json({
+  // ✅ Normal JS error
+  if (err instanceof Error) {
+    return res.status(500).json({
+      message: err.message,
+      success: false,
+      error: {
+        name: err.name,
+        stack: err.stack,
+      },
+    });
+  }
+
+  // ✅ Fallback for unexpected errors
+  res.status(500).json({
+    message: "An unknown error occurred",
     success: false,
-    message,
-    error,
+    error: err,
   });
 };

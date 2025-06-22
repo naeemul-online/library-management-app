@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBorrowSummary = exports.borrowBook = void 0;
 const book_model_1 = require("../models/book.model");
 const borrow_model_1 = require("../models/borrow.model");
+// borrow book logic
 const borrowBook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { book, quantity, dueDate } = req.body;
@@ -33,6 +34,7 @@ const borrowBook = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.borrowBook = borrowBook;
+// borrow book summery
 const getBorrowSummary = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const summary = yield borrow_model_1.Borrow.aggregate([

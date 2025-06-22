@@ -1,14 +1,12 @@
-import { Error } from "mongoose";
+import { Error as MongooseError } from "mongoose";
 
-export const handleValidationError = (err: Error.ValidationError) => {
-  const errors: Record<string, string> = {};
-
-  Object.values(err.errors).forEach((el) => {
-    errors[el.path] = el.message;
-  });
-
+export const handleValidationError = (err: MongooseError.ValidationError) => {
   return {
     message: "Validation failed",
-    errorDetails: errors,
+    success: false,
+    error: {
+      name: err.name,
+      errors: err.errors,
+    },
   };
 };

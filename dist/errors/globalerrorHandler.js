@@ -1,30 +1,33 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.globalErrorHandler = void 0;
-const ApiError_1 = require("./ApiError");
-const mongoose_1 = require("mongoose");
+const mongoose_1 = __importDefault(require("mongoose"));
 const handleValidationError_1 = require("./handleValidationError");
-const globalErrorHandler = (err, req, res, next) => {
-    let statusCode = 500;
-    let message = "Something went wrong!";
-    let error = {};
-    if (err instanceof ApiError_1.ApiError) {
-        statusCode = err.statusCode;
-        message = err.message;
+const globalErrorHandler = (err, req, res, _next) => {
+    // ✅ Mongoose validation error
+    if (err instanceof mongoose_1.default.Error.ValidationError) {
+        const errorResponse = (0, handleValidationError_1.handleValidationError)(err);
+        return res.status(400).json(errorResponse);
     }
-    else if (err instanceof mongoose_1.Error.ValidationError) {
-        statusCode = 400;
-        const simplified = (0, handleValidationError_1.handleValidationError)(err);
-        message = simplified.message;
-        error = simplified.errorDetails;
+    // ✅ Normal JS error
+    if (err instanceof Error) {
+        return res.status(500).json({
+            message: err.message,
+            success: false,
+            error: {
+                name: err.name,
+                stack: err.stack,
+            },
+        });
     }
-    else if (err instanceof Error) {
-        message = err.message;
-    }
-    res.status(statusCode).json({
+    // ✅ Fallback for unexpected errors
+    res.status(500).json({
+        message: "An unknown error occurred",
         success: false,
-        message,
-        error,
+        error: err,
     });
 };
 exports.globalErrorHandler = globalErrorHandler;

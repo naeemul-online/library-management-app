@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Book } from "../models/book.model";
 import { Borrow } from "../models/borrow.model";
 
+// borrow book logic
 export const borrowBook = async (
   req: Request,
   res: Response,
@@ -28,6 +29,8 @@ export const borrowBook = async (
     next(error);
   }
 };
+
+// borrow book summery
 
 export const getBorrowSummary = async (
   req: Request,

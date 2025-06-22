@@ -31,7 +31,7 @@ const bookSchema = new mongoose_1.Schema({
     copies: {
         type: Number,
         required: true,
-        min: [0, "Copies must be a non-negative number"],
+        min: [0, "Copies must be a positive number"],
     },
     available: {
         type: Boolean,
