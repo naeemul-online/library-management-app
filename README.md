@@ -2,6 +2,12 @@
 
 This is a RESTful API for managing books in a library, built with **Node.js**, **Express**, **TypeScript**, and **MongoDB (Mongoose)**. It includes features like borrowing logic, book inventory management, and summary reporting using MongoDB aggregation.
 
+
+---
+
+## Live Link
+https://library-management-app-delta.vercel.app/
+
 ---
 
 ## Features

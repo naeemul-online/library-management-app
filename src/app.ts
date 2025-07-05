@@ -6,11 +6,9 @@ import { globalErrorHandler } from "./errors/globalerrorHandler";
 
 const app = express();
 
-app.use(
-  cors({
+app.use(cors({
     origin: ["http://localhost:5173", "https://library-client-ten.vercel.app"],
-  })
-);
+  }));
 app.use(express.json());
 
 // Routes
